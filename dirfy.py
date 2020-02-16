@@ -82,7 +82,7 @@ def main(argv):
             wordlist_path = arg
         elif opt in ("-f", "--false-positives"):
             fps_file = arg
-            fps = open(fps_file,'r').readlines()
+            fps = [fp[:-1] for fp in  open(fps_file,'r').readlines()]
         elif opt in ("-c", "--max-concurrent"):
             arg_max_concurrent = int(arg)
         elif opt in ("-r", "--follow-redirects"):
