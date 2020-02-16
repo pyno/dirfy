@@ -1,0 +1,4 @@
+asyhttp>=0.2
+aiohttp
+aiohttp_proxy
+dye
