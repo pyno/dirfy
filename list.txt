@@ -6101,3 +6101,5 @@ zimbra
 zimbra/
 zone-h.php
 ~admin/
+/sap/admin
+/sap/admin/public/default.html

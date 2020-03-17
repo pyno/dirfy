@@ -1,1 +1,4 @@
 <h1>Burp Suite Professional</h1>
+The termination occurred in system with error code 404 and for the reason Not found.
+<title>Business Server Page (BSP) error</title>
+<title>Logon</title>

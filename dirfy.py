@@ -36,6 +36,7 @@ def print_help():
     print("    -c <max_concurrent>        :- maximum number of concurrent requests (default 1000)")
     print("    -r                         :- follow redirects")
     print("    -n                         :- disable logging")
+    print("    -H <header_file>           :- file containing HTTP headers")
 
 def main(argv):
     arg_exts = ""
@@ -46,16 +47,18 @@ def main(argv):
     arg_allow_redirects = False
     fps = []
     fps_file = ""
+    arg_header_file = ""
 
     sys.stdout.write(" ----------------------\n")
     sys.stdout.write("  dirfy v{}".format(ver)+"\n")
     sys.stdout.write(" ----------------------\n")
 
     try:
-        opts, args = getopt.getopt(argv,"hu:e:p:d:f:c:rn",[
+        opts, args = getopt.getopt(argv,"hu:e:p:d:f:c:rnH:",[
                                                         "url=","extensions=","proxy=",
                                                         "dict=","false-positives=,max-concurrent=",
-                                                        "follow-redirects", "disable-log"
+                                                        "follow-redirects", "disable-log",
+                                                        "header-file"
                                                         ])
     except getopt.GetoptError as goe:
         print(fg.RED+' [!] '+str(goe)+'\n'+fg.RESET)
@@ -82,7 +85,7 @@ def main(argv):
             wordlist_path = arg
         elif opt in ("-f", "--false-positives"):
             fps_file = arg
-            fps = [fp[:-1] for fp in  open(fps_file,'r').readlines()]
+            fps = [fp.rstrip('\n') for fp in  open(fps_file,'r').readlines()]
         elif opt in ("-c", "--max-concurrent"):
             arg_max_concurrent = int(arg)
         elif opt in ("-r", "--follow-redirects"):
@@ -90,10 +93,17 @@ def main(argv):
         elif opt in ("-n" "--disable-log"):
             global LOG_ENABLED
             LOG_ENABLED=False
+        elif opt in ("-H" "--header-file"):
+            arg_header_file = arg
             
     if LOG_ENABLED:
         global logfile
         logfile = open('./log.txt','a')
+
+    if arg_header_file != '':
+        headers = {line.split(':')[0]:line.split(':')[1].rstrip('\n') for line in open(arg_header_file).readlines()}
+    else:
+        headers = ''
             
     path_list = [d for d in read_file(wordlist_path)]
     target=arg_url+"/{}"
@@ -106,11 +116,13 @@ def main(argv):
                 url_dict = {}
                 url_dict["url"] = target.format(repl_path[:-1])
                 url_dict["method"] = "GET"
+                url_dict["headers"] = headers
                 url_dict_list.append(url_dict)
         else:
             url_dict = {}
             url_dict["url"] = target.format(path[:-1])
             url_dict["method"] = "GET"
+            url_dict["headers"] = headers
             url_dict_list.append(url_dict)
 
     global global_total
