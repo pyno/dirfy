@@ -31,6 +31,7 @@ Main features of dirfy:
  - Configurable redirection behaviour (-r)
  - Support for false positives detection (-f)
  - Request logging (-n to disalbe)
+ - Custom headers (-H)
  
 ## advaced usage
 ### false positives
