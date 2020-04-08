@@ -7,6 +7,11 @@
 %EXT%
 %ff/
 ..;/
+..;/manager/html
+..;/manager/text
+..;/..;/
+..;/..;/manager/html
+..;/..;/manager/text
 .7z
 .access
 .addressbook
@@ -3977,6 +3982,8 @@ manager/
 manager/admin.asp
 manager/html
 manager/html/
+manager/text
+manager/text/
 manager/login
 manager/login.asp
 manager/VERSION
